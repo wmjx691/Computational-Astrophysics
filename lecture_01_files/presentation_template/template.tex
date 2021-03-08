@@ -1,0 +1,94 @@
+% !TEX encoding = UTF-8 Unicode
+%
+% Template for the final project
+%
+% Computational Astrophysics
+%
+\documentclass[preprint]{aastex63}
+%\documentclass[twocolumn,times,linenumbers]{aastex63}
+
+%% one-column, double-spaced document:
+%\documentclass[manuscript]{aastex63}
+
+%% double-column, single-spaced document:
+%\documentclass[preprint2]{aastex63}
+
+
+%== Packages ===========================================================
+\usepackage{graphicx}
+\usepackage[FIGTOPCAP]{subfigure}
+\usepackage{amsmath,booktabs,threeparttable,url, bm}
+\usepackage[hyphenbreaks]{breakurl}
+\usepackage{CJKutf8}
+
+\newcommand{\cntext}[1]{\begin{CJK*}{UTF8}{bsmi}#1\end{CJK*}}
+\newcommand{\Teff}{\ensuremath{T_{\mathrm{eff}}}}
+
+%== Bibliography style  =============================================================
+\usepackage{natbib}
+\bibliographystyle{aasjournal}
+%%=====================================================================
+\received{\today}
+%\submitjournal{ApJ}
+
+\shorttitle{CA: Final Project}
+\shortauthors{K.-C. Pan}
+
+\begin{document}
+\title{Your Project Title}
+
+ % Author affiliation commands
+\newcommand*{\NTHU}{Department of Physics and Institute of Astronomy, National Tsing Hua University, Hsinchu 30013, Taiwan}
+\newcommand*{\CICA}{Center for Informatics and Computation in Astronomy, National Tsing Hua University, Hsinchu 30013, Taiwan}
+
+\author[0000-0002-1473-9880]{Kuo-Chuan Pan (\cntext{潘國全})}
+\affiliation{\NTHU} \affiliation{\CICA}  
+
+ 
+%-------------------------------------------------------------------------------------------------------------
+%  Abstract    *** 250 words limit *** ApJ
+%--------------------------------------------------------------------------------------------------------------
+
+\begin{abstract}
+
+We 
+
+\end{abstract}
+
+\keywords{hydrodynamics --- instabilities --- stars: black hole --- supernovae: general --- neutrinos --- gravitational waves}
+
+%-------------------------------------------------------------------------------------------------------------
+%  Introduction
+%--------------------------------------------------------------------------------------------------------------
+
+\section{INTRODUCTION}
+
+Citation \cite{2019JPhG...46a4001P}
+
+
+%-------------------------------
+\begin{figure*}
+	\plotone{fig1.pdf}
+	\caption{\label{fig1}
+	Figure caption.}
+\end{figure*}
+%-------------------------------
+
+\section{METHODS}
+
+\section{RESULTS}
+
+\section{DISCUSSIONS}
+
+\section{CONCLUSIONS}
+
+%-------------------------------------------------------------------------------------------------------------
+% References
+%-------------------------------------------------------------------------------------------------------------
+\begin{thebibliography}{9}
+
+\bibitem[Pan et al.(2019)]{2019JPhG...46a4001P} Pan, K.-C., Mattes, C., O'Connor, E.~P., et al.\ 2019, Journal of Physics G Nuclear Physics, 46, 014001
+  
+\end{thebibliography}  
+
+\end{document}

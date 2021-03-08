@@ -1,0 +1,34 @@
+!
+! A simple program to calculate pi
+!
+program pi
+
+    implicit none
+
+    real    :: x, dx, h, dA, area
+    integer :: i, N
+
+    print *, "Type the number of partition (N) you want to make"
+    read *, N
+
+    !-- initialize values
+    !   dx = (1 - (-1))/ N
+    !
+    dx   = 
+    area =
+
+    !-- calculate each rectangle and sum the area
+    do i = 1, N
+       x  =
+       h  = 
+       dA = 
+       area = area + dA
+    enddo
+
+    !-- print out the result
+    print *, "PI = ", 2.*area
+
+
+end program pi
+
+
