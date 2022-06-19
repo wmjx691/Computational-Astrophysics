@@ -1,0 +1,10 @@
+To create a new problem
+put user's codes in this directory
+
+necessary files:
+
+* iniital.f
+* boundary.f
+* parameters
+
+

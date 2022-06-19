@@ -1,0 +1,6 @@
+!test problem
+!
+!
+integer, parameter :: n = 20
+double precision, dimension(n)   :: U
+double precision, dimension(3*n) :: UL

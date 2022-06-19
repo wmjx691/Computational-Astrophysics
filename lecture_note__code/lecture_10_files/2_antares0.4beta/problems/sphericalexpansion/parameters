@@ -1,0 +1,53 @@
+!===========================================
+! Setup the parameters for simulation
+!
+! K.C. Pan March, 2008
+!
+!
+!---  Choose Dimensional
+      parameter ( D1D       = .false.) ! True for 1D
+      parameter ( D2D       = .true. ) ! True for 2D
+      parameter ( D3D       = .false.) ! True for 3D
+      parameter ( MHD       = .true. ) ! True for MHD
+      parameter ( ISOTHERMAL= .false.) ! True for Isothermal
+!     note: we don't have isothermal MHD solver, currently
+!--- Geometry
+      parameter (cartesian   = .true.)  
+      parameter (spherical   = .false.)  
+      parameter (cylindrical = .false.)  
+!--------------------------------------------------
+      parameter ( ibeg  =        1  )
+      parameter ( iend  =      100  ) ! N x
+      parameter ( ibuf  =        2  )
+      parameter ( jbeg  =        1  )
+      parameter ( jend  =      100  ) ! N y
+      parameter ( jbuf  =        2  )
+      parameter ( kbeg  =        1  )
+      parameter ( kend  =        1  ) ! N z
+      parameter ( kbuf  =        2  )
+!---  Physical Dormain
+      parameter ( xmin  =     -50.d0 )
+      parameter ( xmax  =      50.d0 )
+      parameter ( ymin  =     -50.d0 )
+      parameter ( ymax  =      50.d0 )
+      parameter ( zmin  =      0.d0 )
+      parameter ( zmax  =      1.d0 )
+      parameter ( gam   =      2.d0)
+      parameter ( tf    =      3.d0 )
+      parameter ( smalld  =      1.d-14 )
+      parameter ( smalle  =      1.d-14 )
+      parameter ( smallt  =      1.d-4 )
+!--------------------------------------------------
+      parameter ( iso_snd =    1.d0 )  ! Isothermal sound speed
+      parameter ( cfl   =     0.4d0 )  ! Courant number
+!---  OUTPUT --------------------------------------      
+      parameter ( fio_ppm =   800 )
+      parameter ( fio_bin_i =   0 )    !start frame
+      parameter ( fio_bin_o = 100 )    !end   frame
+!--------------------------------------------------
+      dimension  x(ibeg-ibuf  :iend+ibuf)
+      dimension xl(ibeg-ibuf-1:iend+ibuf)
+      dimension  y(jbeg-jbuf  :jend+jbuf)
+      dimension yl(jbeg-jbuf-1:jend+jbuf)
+      dimension  z(kbeg-kbuf  :kend+kbuf)
+      dimension zl(kbeg-kbuf-1:kend+kbuf)

@@ -1,0 +1,325 @@
+#!/bin/bash
+#
+# Antares Codes problemm generator
+#
+# K.C. Pan Jan. 2009.
+#
+# kpan2@astro.uiuc.edu
+#
+
+function printframeup(){
+	clear
+	echo "========================  ANTARES CODES =========================="
+	echo "|                                                                |"
+	echo "|                                                                |"
+	echo "|                                                version $version"
+	echo "|----------------------------------------------------------------|"
+	echo "|                                                                |"
+	echo "|                                                                |"
+	echo "|  Date       =  $today                                           " 
+	echo "|  Fluid      =  $fluid                                           " 
+	echo "|  Dimension  =  $dimension                                       "
+	echo "|  Problem    =  $problem                                         "
+	echo "|  E.O.S.     =  $eos                                             "
+	echo "|                                                                 "
+	echo "|                                                                |"
+	echo "|  Limiter    =  $limiter                                         "
+	echo "|  Flux solver=  $fluxsolver                                      "
+	echo "|                                                                |"
+	echo "|                                                                |"
+	echo "|----------------------------------------------------------------|"
+	echo "|                                                                |"
+}
+function printframedown(){
+	echo "|                                                                |"
+	echo "|----------------------------------------------------------------|"
+
+}
+function printframelimiters(){
+	clear
+	echo "========================  ANTARES CODES =========================="
+	echo "|                                                                |"
+	echo "|                                                                |"
+	echo "|                                                version $version"
+	echo "|----------------------------------------------------------------|"
+	echo "|                                                                |"
+	echo "|  This project demonstrate how limiters work                    |"
+	echo "|                                                                |"
+	echo "|  input: a initial profile                                      |"
+	echo "|  output: the profile after reconstructe by limiter             |"
+	echo "|                                                                |"
+	echo "|                                                                |"
+	echo "|  Problem    =  $problem                                         "
+	echo "|  Limiter    =  $limiter                                         "
+	echo "|                                                                |"
+	echo "|----------------------------------------------------------------|"
+	echo "|                                                                |"
+}
+function printframeantares(){
+	clear
+	echo "========================  ANTARES CODES =========================="
+	echo "|                                                                |"
+	echo "|                                                                |"
+	echo "|                                                version $version"
+	echo "|----------------------------------------------------------------|"
+	echo "|                                                                |"
+	echo "|                                                                |"
+}
+function printspace(){
+	echo "|                                                                |"
+}
+function printbar(){
+	echo "|----------------------------------------------------------------|"
+}
+
+##########################################################################
+#
+#  start the main script
+#
+# 						K.C. Pan
+##########################################################################
+
+today=`date +%Y%m%d`
+version="0.4beta"
+
+case $1 in
+
+##########################################################################
+#       projects list
+##########################################################################
+	"projects")
+		printframeantares
+		printspace
+		echo "| Here are some special small projecs "
+		printspace
+		echo " "
+		ls -l ./src/projects
+		echo " "
+		printbar
+		echo "| >>  choose projects by ./setup \"project name\""
+		printspace
+	;;	
+##########################################################################
+#	show limiters profiles 
+##########################################################################
+	"showlimiters")
+		printframelimiters
+		echo "| >> Choose problem from \"./src/projects/$1/problems\": "
+		echo " "
+		echo " "
+		ls -l ./src/projects/$1/problems	
+		echo " "
+		read -p "| >> Type problem name : " problem
+		test ! -d ./src/projects/$1/problems/$problem && echo "Problem directory $problem does not exit" && exit 0
+
+		printframelimiters
+
+		echo "| >> choose the limiter to reconstruct "
+		echo "| >> we have :"
+		echo "|  "
+		ls -l ./src/limiters
+		echo " "
+		read -p "| >> choose none,minmod, or vanleer :" limiter
+		test ! -d ./src/limiters/$limiter && echo "Limiter directory $limiter does not exit" && exit 0
+
+		printframelimiters
+		cp ./src/limiters/$limiter/limiter.f ./objects
+		cp ./src/projects/$1/main.f90 ./objects
+		cp ./src/projects/$1/makefile ./objects
+		cp ./src/projects/$1/problems/$problem/* ./objects
+
+		echo    " "
+		echo    "| >> type \"make\" to compile the codes"
+		echo    " "
+	;;
+##########################################################################
+#	copy here to create new projects
+##########################################################################
+	"new_projects")
+		echo "edit new projects at here"
+	;;	
+#       else cases for generate codes	
+	*)    
+##########################################################################
+#	generate antares codes for simulations
+##########################################################################
+
+printframeup
+
+read -p "| >> Select fluids (hydro/mhd)? " fluid
+	if [ "$fluid" == "hydro" ] ; then
+		echo "   fluid = $fluid" 
+	elif [ "$fluid" == "mhd" ]; then
+		echo "   fluid = $fluid" 
+	else
+		echo "| >> No such fluid, choose \"hydro\" or \"mhd\" "
+		printframedown
+		exit 0
+	fi
+
+printframeup
+
+read -p "| >> Select dimension (1D/2D/3D)? " dimension
+	if [ "$dimension" == "1D" ] || [ "$dimension" == "1d" ]; then
+		echo "   dimension = $dimension" 
+	elif [ "$dimension" == "2D" ] || [ "$dimension" == "2d" ]; then
+		echo "   dimension = $dimension" 
+	elif [ "$dimension" == "3D" ] || [ "$dimension" == "3d" ]; then
+		echo "   dimension = $dimension" 
+	else
+		echo "| >> No such dimension, choose \"1D\",\"2D\", or \"3D\" "
+		printframedown
+		exit 0
+	fi
+echo ""
+
+printframeup
+
+echo "| >> Choose one problem in \"problems\": "
+echo " "
+echo "| >> new problems can be create by add new folders in \"problems\" "
+echo " "
+
+ls -l ./problems	
+echo " "
+read -p "| >> Type problem name : " problem
+
+test ! -d problems/$problem && echo "| >> Problem directory $problem does not exit" && exit 0
+
+printframeup
+
+read -p "| >> Select Equastion of state (\"adiabatic\" or \"isothermal\"):" eos
+	if [ "$eos" == "adiabatic" ]; then
+		echo "   E.O.S. = $eos" 
+	elif [ "$eos" == "isothermal" ]; then
+	# currently, not support isothermal mhd
+		if [ "$fluid" == "mhd" ] || [ "$fluid" == "MHD" ]; then
+			echo "| >> not support isothermal MHD, plase choose adiabatic eos"
+			exit 0
+		fi
+		echo "   E.O.S. = $eos" 
+	else
+		echo "| >> No such E.O.S.,  choose \"adiabatic\" or \"isothermal\". "
+		printframedown
+		exit 0
+	fi
+
+# rearrange source files
+test ! -d objects && echo "| >> Objects directory \"object\" does not exit" && exit 0
+test ! -d src &&     echo "| >> source directory \"src\" does not exit" && exit 0
+
+# drivers
+cp ./src/drivers/main.f ./objects
+cp ./src/drivers/checkconsistent.f ./objects
+cp ./src/drivers/ddt.f ./objects
+cp ./src/drivers/godnov.f ./objects
+cp ./src/drivers/coef.h ./objects
+cp ./src/drivers/conserve.h ./objects
+cp ./src/drivers/fluid.h ./objects
+cp ./src/drivers/flux.h ./objects
+# divergence clean
+cp ./src/numerical/divclean/divFree.h ./objects
+cp ./src/numerical/divclean/divclean.f ./objects
+cp ./src/numerical/divclean/divcleanBdry.f ./objects
+# grids
+cp ./src/grids/grid.f ./objects
+cp ./src/grids/cartesian/cartesian_update.f ./objects
+cp ./src/grids/cylindrical/cylindrical_update.f ./objects
+cp ./src/grids/spherical/spherical_update.f ./objects
+# io
+cp ./src/io/io.f ./objects
+cp ./src/io/io.h ./objects
+cp ./src/io/ppm/color.h ./objects
+cp ./src/io/ppm/io_colormap.f ./objects
+cp ./src/io/ppm/io_ppm.f ./objects
+cp ./src/io/ppm/io_ppmXZ.f ./objects
+cp ./src/io/binary/io_bin.f ./objects
+# sources
+cp ./src/sources/source.f ./objects
+# Boundary condition
+cp ./src/BC/*.f ./objects
+
+# defalut numericla method
+cp ./src/numerical/limiters/minmod/limiter.f ./objects
+
+test -d ./src/numerical/flux/$fluid/$eos/hllc && cp ./src/numerical/flux/$fluid/$eos/hllc/flux.f ./objects
+test -d ./src/numerical/flux/$fluid/$eos/hlld && cp ./src/numerical/flux/$fluid/$eos/hlld/flux.f ./objects
+
+# change numerical method
+
+printframeup
+
+read -p "| >> Change numerical method? (Y/N) " yn_method
+	if [ "$yn_method" == "Y" ] || [ "$yn_method" == "y" ]; then
+
+		printframeup
+		# Limiters :
+		echo "| >> choose the limiter to reconstruct "
+		echo "| >> we have :"
+		echo "|  "
+		ls -l ./src/numerical/limiters
+		echo " "
+		read -p "| >> choose none,minmod, or vanleer : " limiter
+
+		test ! -d ./src/numerical/limiters/$limiter && echo "| >> Limiter directory $limiter does not exit" && exit 0
+
+			cp ./src/numerical/limiters/$limiter/limiter.f ./objects
+
+		
+		# flux solver :
+		printframeup
+		echo "| >> choose the flux solver :"
+		if [ "$fluid" == "hydro" ]; then
+			echo "| >> we have :"
+			echo "| "
+			ls -l ./src/numerical/flux/$fluid/$eos
+			echo " "
+			echo "| >>                                     for hydro"	
+		else
+			echo "| >> we have :"
+			echo "| "
+			ls -l ./src/numerical/flux/$fluid/$eos
+			echo " "
+			echo "| >>                                     for mhd"	
+		fi	
+
+		read -p "| >> choose flux solver " fluxsolver
+		
+		test ! -d ./src/numerical/flux/$fluid/$eos/$fluxsolver && echo "| >> flux directory $fluxsolver does not exit" && exit 0
+
+			cp ./src/numerical/flux/$fluid/$eos/$fluxsolver/flux.f ./objects
+
+	elif [ "$yn_method" == "N" ] || [ "$yn_method" == "n" ]; then
+		echo "| >> use default numerical method "
+	else
+		echo "| >> please choose yes(y) or no(n) "
+		exit 0
+	fi
+	printframedown	
+# 
+cp ./src/io/ppm/color.palette ./bin
+cp ./vis/matlab/*.m ./bin
+cp ./vis/idl/plot1d.pro ./bin
+
+cp ./problems/$problem/* ./objects
+
+# generate parameters file
+
+# generate documents
+
+# generate makefile
+cp ./src/makefile ./objects
+# setupt complete
+
+printframeup
+
+echo    "| >> Setup complete !!!  "
+printframedown
+
+echo    " "
+echo    "| >> type \"make\" to compile the codes"
+echo    " "
+
+# End
+	;;
+esac

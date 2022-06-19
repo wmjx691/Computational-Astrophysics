@@ -1,0 +1,22 @@
+;+
+;
+; Plot 2D contour
+;
+;
+;-
+
+
+	  nend= 192            ; resolution
+	  file='dat0096.bin'   ; file name
+
+	  data=dblarr(nend+4.,nend+4.,1,8)  ; for mhd
+;	  data=dblarr(nend+4.,nend+4.,1,5)  ; for hydro
+ 
+	  openr, lun, file, /GET_LUN, /F77_UNFORMATTED
+	  readu, lun, data
+	  FREE_LUN, lun
+	  window, 1, xsize=600, ysize=600
+	  show3,data(*,*,0,0)
+
+
+

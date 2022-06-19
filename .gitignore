@@ -1,0 +1,47 @@
+# 檔案名稱 .gitignore
+
+# 檔案名
+hw6_Galactic Dynamics, James Binney (2ed., ).pdf
+Stellar_Astrophysics_lecturenote.pdf
+**/desktop.ini
+**/.DS_Store
+**/.ipynb_checkpoints
+**/*.o
+**/*.out
+**/*.exe
+**/*.mod
+**/*.dat
+**/*.txt
+**/*.d
+**/*.f90~
+**/*.zip
+**/*.rar
+
+
+# 資料夾名
+__MACOSX
+latex教學
+**/__MACOSX
+
+# Midterm_Proposal資料夾 -> 僅要report
+Midterm_Proposal/*
+!Midterm_Proposal/final_proposal 106022114 游惟翔.pdf
+!Midterm_Proposal/final proposal latex source 106022114
+
+# Fianl_Project資料夾 -> 排除特定副檔名檔案
+Final_Project/presentation photo
+Final_Project/forplot_FINAL
+Final_Project/code_previous_version/final_v*/__pycache__
+!Final_Project/code_Project_source_code/*
+Final_Project/report/*
+!Final_Project/report/final project latex source 106022114/*
+!Final_Project/report/computAstro_FINAL.pdf
+!Final_Project/report/final_project 106022114.pdf
+
+# lecture_note資料夾 -> 排除特定副檔名檔案
+lecture_note__code/lecture_07_files_original
+lecture_note__code/lecture_01_files/*.pdf
+
+
+# homework_report資料夾 -> 排除特定副檔名檔案
+homework_report/hw7/Sun Fact Sheet_files

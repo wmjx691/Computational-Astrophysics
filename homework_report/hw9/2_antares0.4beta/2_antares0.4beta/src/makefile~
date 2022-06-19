@@ -1,0 +1,7 @@
+
+
+default:
+	g95 -c *.f -O2
+	g95 *.o -O2 -o ../bin/antares.exe
+
+
